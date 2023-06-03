@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using VoteApp.Database;
 using VoteApp.Database.Document;
 using VoteApp.Host.Service;
@@ -17,8 +16,6 @@ public class UploadController : AbstractClientController
         _documentService = documentService;
     }
 
-
-    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Upload(IFormFile? photo)
     {

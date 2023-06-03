@@ -15,7 +15,6 @@ public class DownloadController : AbstractClientController
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> GetDocumentsList(int skip, int take)
     {
         var documents = await DatabaseContainer.Document.ListDocumentsByStatus(DocumentStatus.Default, skip, take);
@@ -30,7 +29,6 @@ public class DownloadController : AbstractClientController
     
     
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> DownloadFiles(int skip, int take, DocumentQuality quality)
     {
         var documents = await DatabaseContainer.Document.ListDocumentsByStatus(DocumentStatus.Default, skip, take);
@@ -44,7 +42,6 @@ public class DownloadController : AbstractClientController
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> DownloadFile(int documentId, DocumentQuality quality)
     {
         var document = await DatabaseContainer.Document.GetDocumentById(documentId);
