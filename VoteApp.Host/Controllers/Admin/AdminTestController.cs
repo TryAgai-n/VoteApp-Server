@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Models.API.User;
@@ -28,7 +27,13 @@ public class AdminTestController : AbstractClientController
     [HttpPost]
     public async Task<IActionResult> CreateUser(RequestRegisterUser requestRegisterUser)
     {
-        var user = await DatabaseContainer.UserWeb.CreateUser(requestRegisterUser.Login, requestRegisterUser.FirstName, requestRegisterUser.LastName, requestRegisterUser.Phone, requestRegisterUser.Password);
+        var user = await DatabaseContainer.UserWeb.CreateUser(
+            requestRegisterUser.Login,
+            requestRegisterUser.FirstName,
+            requestRegisterUser.LastName, 
+            requestRegisterUser.Phone, 
+            requestRegisterUser.Password);
+        
         return Ok(user);
     }
 

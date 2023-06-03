@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
+using VoteApp.Database.User;
 using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Client;
@@ -59,9 +60,9 @@ public class UserController : AbstractClientController
 
       var claims = new[]
       {
-         new Claim("UserId",        user.Id.ToString()),
-         new Claim(ClaimTypes.Name, user.FirstName),
-         new Claim(ClaimTypes.Role, user.UserRole.ToString())
+         new Claim(UserClaims.Id.ToString(),   user.Id.ToString()),
+         new Claim(UserClaims.Name.ToString(), user.FirstName),
+         new Claim(UserClaims.Role.ToString(), user.UserRole.ToString())
       };
         
       var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
