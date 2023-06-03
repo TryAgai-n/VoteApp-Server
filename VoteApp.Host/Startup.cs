@@ -34,7 +34,7 @@ namespace VoteApp.Host
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BottApp Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApp Api", Version = "v1" });
             });
             
             var typeOfContent = typeof(Startup);
@@ -70,7 +70,7 @@ namespace VoteApp.Host
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BottApp Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VoteApp Api v1"));
             }
             
             app.UseStaticFiles();

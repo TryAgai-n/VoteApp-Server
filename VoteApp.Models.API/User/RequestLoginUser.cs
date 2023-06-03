@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VoteApp.Client.User;
+namespace VoteApp.Models.API.User;
 
 public class RequestLoginUser
 {
