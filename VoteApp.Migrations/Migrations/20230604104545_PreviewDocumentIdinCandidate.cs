@@ -5,25 +5,24 @@
 namespace VoteApp.Migrations.Migrations
 {
     /// <inheritdoc />
-    public partial class userRole : Migration
+    public partial class PreviewDocumentIdinCandidate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "UserRole",
-                table: "User",
+                name: "PreviewDocumentId",
+                table: "Candidate",
                 type: "integer",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "UserRole",
-                table: "User");
+                name: "PreviewDocumentId",
+                table: "Candidate");
         }
     }
 }

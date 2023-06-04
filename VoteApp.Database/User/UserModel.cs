@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using VoteApp.Database.Candidate;
 using VoteApp.Database.Document;
 
 namespace VoteApp.Database.User;
 
 public class UserModel : AbstractModel
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Login { get; set; }
     public string FirstName { get; set; }
@@ -16,8 +15,8 @@ public class UserModel : AbstractModel
     public string Phone { get; set; }
     public string Password { get; set; }
     public UserRole UserRole { get; set; }
-
-    public List<DocumentModel> Documents;
+    public List<DocumentModel> Documents { get; set; }
+    public List<CandidateModel> Candidates { get; set; }
 
 
 

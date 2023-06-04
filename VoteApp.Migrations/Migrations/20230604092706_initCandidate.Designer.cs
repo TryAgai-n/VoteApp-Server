@@ -9,14 +9,14 @@ using VoteApp.Database;
 
 #nullable disable
 
-namespace BottApp.Migrations.Migrations
+namespace VoteApp.Migrations.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20230526071408_init")]
-    partial class init
+    [Migration("20230604092706_initCandidate")]
+    partial class initCandidate
     {
         /// <inheritdoc />
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,6 +25,28 @@ namespace BottApp.Migrations.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("VoteApp.Database.Candidate.CandidateModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Candidate");
+                });
+
             modelBuilder.Entity("VoteApp.Database.Document.DocumentModel", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +54,9 @@ namespace BottApp.Migrations.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CandidateModelId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -51,6 +76,8 @@ namespace BottApp.Migrations.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CandidateModelId");
 
                     b.HasIndex("UserId");
 
@@ -73,6 +100,10 @@ namespace BottApp.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
@@ -81,13 +112,31 @@ namespace BottApp.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("VoteApp.Database.Candidate.CandidateModel", b =>
+                {
+                    b.HasOne("VoteApp.Database.User.UserModel", "User")
+                        .WithMany("Candidates")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("VoteApp.Database.Document.DocumentModel", b =>
                 {
+                    b.HasOne("VoteApp.Database.Candidate.CandidateModel", null)
+                        .WithMany("Documents")
+                        .HasForeignKey("CandidateModelId");
+
                     b.HasOne("VoteApp.Database.User.UserModel", "UserModel")
                         .WithMany("Documents")
                         .HasForeignKey("UserId")
@@ -97,8 +146,15 @@ namespace BottApp.Migrations.Migrations
                     b.Navigation("UserModel");
                 });
 
+            modelBuilder.Entity("VoteApp.Database.Candidate.CandidateModel", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("VoteApp.Database.User.UserModel", b =>
                 {
+                    b.Navigation("Candidates");
+
                     b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618

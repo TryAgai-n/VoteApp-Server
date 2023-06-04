@@ -9,14 +9,14 @@ using VoteApp.Database;
 
 #nullable disable
 
-namespace BottApp.Migrations.Migrations
+namespace VoteApp.Migrations.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20230528112403_userRole")]
-    partial class userRole
+    [Migration("20230604092637_initDocument")]
+    partial class initDocument
     {
         /// <inheritdoc />
-        protected void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,6 +70,10 @@ namespace BottApp.Migrations.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");
 
