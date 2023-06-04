@@ -18,6 +18,24 @@ public class DocumentService : IDocumentService
         _databaseContainer = databaseContainer;
     }
 
+
+    public Task<IFormFile> ValidatePhoto(IFormFile photo)
+    {
+        if (photo is null || photo.Length <= 0)
+        {
+            throw new ArgumentException("Photo can't be null");
+        }
+
+        const int maxFileSizeInBytes = 10 * 1024 * 1024;
+
+        if (photo.Length > maxFileSizeInBytes)
+        {
+            throw new ArgumentException("Photo size should be less than 5 Mb");
+        }
+
+        return Task.FromResult(photo);
+    }
+    
     public async Task<IActionResult> CreateZipArchive(List<DocumentModel> documents, DocumentQuality documentQuality)
     {
         if (documents.Count == 0)
@@ -36,7 +54,6 @@ public class DocumentService : IDocumentService
             {
                 foreach (var document in documents)
                 {
-
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), document.Path);
 
                     if (!File.Exists(filePath))
@@ -76,8 +93,7 @@ public class DocumentService : IDocumentService
             FileDownloadName = "files.zip"
         };
     }
-
-
+    
     public async Task UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus)
     {
         var projectDirectory = Directory.GetCurrentDirectory();
@@ -179,19 +195,7 @@ public class DocumentService : IDocumentService
         await image.WriteAsync(compressPath);
 
     }
-
-    private int GetImageQuality(DocumentQuality documentQuality)
-    {
-        return documentQuality switch
-        {
-            DocumentQuality.High => 50,
-            DocumentQuality.Medium => 30,
-            DocumentQuality.Low => 15,
-            DocumentQuality.UltraLow => 3,
-            _ => 30
-        };
-    }
-
+    
     private string GetImageQualityPrefix(DocumentQuality documentQuality)
     {
         return documentQuality switch

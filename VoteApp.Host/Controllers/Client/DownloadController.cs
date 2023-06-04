@@ -9,7 +9,10 @@ namespace VoteApp.Host.Controllers.Client;
 public class DownloadController : AbstractClientController
 {
     private readonly IDocumentService _documentService;
-    public DownloadController(IDatabaseContainer databaseContainer, IDocumentService documentService) : base(databaseContainer)
+    
+    public DownloadController(
+        IDatabaseContainer databaseContainer,
+        IDocumentService documentService) : base(databaseContainer)
     {
         _documentService = documentService;
     }

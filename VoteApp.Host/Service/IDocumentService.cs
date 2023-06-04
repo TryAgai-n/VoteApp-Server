@@ -8,6 +8,8 @@ public interface IDocumentService
 {
     Task<IActionResult> CreateZipArchive(List<DocumentModel> documents, DocumentQuality documentQuality);
 
+    Task<IFormFile> ValidatePhoto(IFormFile photo);
+
     Task UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus);
 
     Task<IActionResult> GetDocumentFile(DocumentModel document, DocumentQuality documentQuality);

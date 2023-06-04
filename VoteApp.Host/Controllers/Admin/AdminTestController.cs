@@ -5,13 +5,13 @@ using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Admin;
 
+[Authorize]
 public class AdminTestController : AbstractClientController
 {
     
     public AdminTestController(IDatabaseContainer databaseContainer) : base(databaseContainer) { }
-
-    [Authorize]
-    [HttpPost]
+    
+    [HttpGet]
     public async Task<IActionResult> UserById(int id)
     {
         if (!ModelState.IsValid)
@@ -23,7 +23,7 @@ public class AdminTestController : AbstractClientController
         return Ok(response);
     }
    
-    [Authorize]
+
     [HttpPost]
     public async Task<IActionResult> CreateUser(RequestRegisterUser requestRegisterUser)
     {

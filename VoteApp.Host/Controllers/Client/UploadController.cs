@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Database.Document;
-using VoteApp.Database.User;
 using VoteApp.Host.Service;
 
 
@@ -11,43 +9,31 @@ namespace VoteApp.Host.Controllers.Client;
 public class UploadController : AbstractClientController
 {
     private readonly IDocumentService _documentService;
+    private readonly IUserService _userService;
 
 
-    public UploadController(IDatabaseContainer databaseContainer, IDocumentService documentService) : base(databaseContainer)
+    public UploadController(
+        IDatabaseContainer databaseContainer,
+        IDocumentService documentService,
+        IUserService userService) : base(databaseContainer)
     {
         _documentService = documentService;
+        _userService = userService;
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> Upload(IFormFile? photo)
+    public async Task<IActionResult> Upload(IFormFile photo)
     {
-        var userIdClaim = HttpContext.User.FindFirst(UserClaims.Id.ToString());
-        if (userIdClaim == null)
-        {
-            return Unauthorized();
-        }
-    
-        if (!int.TryParse(userIdClaim.Value, out var userId))
-        {
-            return BadRequest("Некорректный ID пользователя");
-        }
+        var userId = await _userService.GetUserIdFromValidCookies(HttpContext);
         
         var user = await DatabaseContainer.UserWeb.GetOneById(userId);
 
-        if (photo is null || photo.Length <= 0)
-        {
-            return BadRequest();
-        }
-
-        const int maxFileSizeInBytes = 10 * 1024 * 1024;
-
-        if (photo.Length > maxFileSizeInBytes)
-        {
-            return BadRequest("Размер фото превышает 5 мегабайт.");
-        }
+        await _documentService.ValidatePhoto(photo);
 
         await _documentService.UploadDocument(user.Id, photo, DocumentStatus.Default);
 
         return Ok();
+
     }
 }
