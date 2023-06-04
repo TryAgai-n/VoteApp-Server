@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using VoteApp.Database;
+using VoteApp.Host.ExceptionFilter;
 using VoteApp.Host.Service;
 
 namespace VoteApp.Host
@@ -35,7 +36,30 @@ namespace VoteApp.Host
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApp Api", Version = "v1" });
+
+                c.AddSecurityDefinition("Cookies", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Cookie,
+                    Name = "UserCookies"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Cookies"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
             });
+
             
             var typeOfContent = typeof(Startup);
 
@@ -48,7 +72,12 @@ namespace VoteApp.Host
             
             services.AddScoped<IDatabaseContainer, DatabaseContainer>();
             services.AddScoped<IDocumentService, DocumentService>();
-            services.AddControllers();
+            services.AddScoped<IUserService, UserService>();
+            
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new CustomExceptionAttribute());
+            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -60,8 +89,6 @@ namespace VoteApp.Host
                     options.ExpireTimeSpan = TimeSpan.FromHours(24);
                     
                 });
-            
-            
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -74,7 +101,6 @@ namespace VoteApp.Host
             }
             
             app.UseStaticFiles();
-            
             app.UseCookiePolicy();
             
             app.UseCors("AllowOrigin");
