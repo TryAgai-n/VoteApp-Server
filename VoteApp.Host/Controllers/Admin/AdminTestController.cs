@@ -19,7 +19,7 @@ public class AdminTestController : AbstractClientController
             return BadRequest();
         }
       
-        var response = await DatabaseContainer.UserWeb.GetOneById(id);
+        var response = await DatabaseContainer.User.GetOneById(id);
         return Ok(response);
     }
    
@@ -27,7 +27,7 @@ public class AdminTestController : AbstractClientController
     [HttpPost]
     public async Task<IActionResult> CreateUser(RequestRegisterUser requestRegisterUser)
     {
-        var user = await DatabaseContainer.UserWeb.CreateUser(
+        var user = await DatabaseContainer.User.CreateUser(
             requestRegisterUser.Login,
             requestRegisterUser.FirstName,
             requestRegisterUser.LastName, 

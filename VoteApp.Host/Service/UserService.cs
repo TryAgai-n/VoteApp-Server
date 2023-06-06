@@ -33,7 +33,7 @@ public class UserService : IUserService
 
     public async Task<UserModel> Create(RequestRegisterUser requestRegisterUser)
     {
-       return await _databaseContainer.UserWeb.CreateUser(
+       return await _databaseContainer.User.CreateUser(
             requestRegisterUser.Login,
             requestRegisterUser.FirstName,
             requestRegisterUser.LastName,

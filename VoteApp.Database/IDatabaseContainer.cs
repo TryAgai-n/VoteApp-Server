@@ -9,7 +9,7 @@ namespace VoteApp.Database
     public interface IDatabaseContainer
     {
 
-        IUserWebRepository UserWeb { get; }
+        IUserRepository User { get; }
         
         
         IDocumentRepository Document { get; }

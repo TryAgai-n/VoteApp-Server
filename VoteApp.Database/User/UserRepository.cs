@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace VoteApp.Database.User;
 
-public class UserWebRepository : AbstractRepository<UserModel>, IUserWebRepository
+public class UserRepository : AbstractRepository<UserModel>, IUserRepository
 {
     
-    public UserWebRepository(PostgresContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory) { }
+    public UserRepository(PostgresContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory) { }
 
     public async Task<UserModel> CreateUser(string login, string firstName, string lastName, string phone, string password)
     {

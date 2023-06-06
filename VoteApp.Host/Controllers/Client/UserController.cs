@@ -46,7 +46,7 @@ public class UserController : AbstractClientController
          return BadRequest();
       }
       
-      var user = await DatabaseContainer.UserWeb.FindOneByLogin(requestLoginUser.Login);
+      var user = await DatabaseContainer.User.FindOneByLogin(requestLoginUser.Login);
 
       if (user is null)
       {

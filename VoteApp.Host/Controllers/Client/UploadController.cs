@@ -27,7 +27,7 @@ public class UploadController : AbstractClientController
     {
         var userId = await _userService.GetUserIdFromValidCookies(HttpContext);
         
-        var user = await DatabaseContainer.UserWeb.GetOneById(userId);
+        var user = await DatabaseContainer.User.GetOneById(userId);
 
         await _documentService.ValidatePhoto(photo);
 

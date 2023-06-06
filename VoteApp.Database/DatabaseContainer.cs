@@ -8,7 +8,7 @@ namespace VoteApp.Database
 
     public class DatabaseContainer : IDatabaseContainer
     {
-        public IUserWebRepository UserWeb { get; set; }
+        public IUserRepository User { get; set; }
 
         public IDocumentRepository Document { get; }
 
@@ -17,7 +17,7 @@ namespace VoteApp.Database
 
         public DatabaseContainer(PostgresContext db, ILoggerFactory loggerFactory)
         {
-            UserWeb = new UserWebRepository(db, loggerFactory);
+            User = new UserRepository(db, loggerFactory);
             Document = new DocumentRepository(db, loggerFactory);
             DocumentStatistic = new DocumentStatisticRepository(db, loggerFactory);
         }
