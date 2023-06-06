@@ -2,7 +2,7 @@
 using VoteApp.Database.User;
 using VoteApp.Models.API.User;
 
-namespace VoteApp.Host.Service;
+namespace VoteApp.Host.Service.User;
 
 public class UserService : IUserService
 {
@@ -31,6 +31,19 @@ public class UserService : IUserService
     }
 
 
+    public async Task<UserModel> ValidateUser(RequestLoginUser request)
+    {
+        var user = await _databaseContainer.User.FindOneByLogin(request.Login);
+
+        if (user.Password != request.Password)
+        {
+            throw new ArgumentException("Login or password is wrong");
+        }
+
+        return user;
+    }
+
+
     public async Task<UserModel> Create(RequestRegisterUser requestRegisterUser)
     {
        return await _databaseContainer.User.CreateUser(
@@ -39,6 +52,5 @@ public class UserService : IUserService
             requestRegisterUser.LastName,
             requestRegisterUser.Phone,
             requestRegisterUser.Password);
-        
     }
 }

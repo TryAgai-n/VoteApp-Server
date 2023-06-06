@@ -19,7 +19,7 @@ public class UserRepository : AbstractRepository<UserModel>, IUserRepository
         
         if(model is null)
         {
-            throw new Exception("User is not created. Instantiate error");
+            throw new ArgumentException("User is not created. Instantiate error");
         }
             
         return result;
@@ -28,11 +28,11 @@ public class UserRepository : AbstractRepository<UserModel>, IUserRepository
 
     public async Task<UserModel> GetOneById(int id)
     {
-        var model = await DbModel.Where(x => x.Id == id).FirstAsync();
+        var model = await DbModel.Where(x => x.Id == id).FirstOrDefaultAsync();
 
         if (model is null)
         {
-            throw new Exception($"User with Id: {id} is not found");
+            throw new ArgumentException($"User with Id: {id} is not found");
         }
 
         return model;
@@ -40,18 +40,23 @@ public class UserRepository : AbstractRepository<UserModel>, IUserRepository
     
     public async Task<UserModel> FindOneByLogin(string login)
     {
-        var model = await DbModel.Where(x => x.Login == login).FirstAsync();
+        var model = await DbModel.Where(x => x.Login == login).FirstOrDefaultAsync();
+
+        if (model is null)
+        {
+            throw new ArgumentException($"User with login: {login} is not found");
+        }
 
         return model;
     }
     
     public async Task<UserModel> GetOneByPhone(string phone)
     {
-        var model = await DbModel.Where(x => x.Phone == phone).FirstAsync();
+        var model = await DbModel.Where(x => x.Phone == phone).FirstOrDefaultAsync();
 
         if (model is null)
         {
-            throw new Exception($"User with phone: {phone} is not found");
+            throw new ArgumentException($"User with phone: {phone} is not found");
         }
 
         return model;

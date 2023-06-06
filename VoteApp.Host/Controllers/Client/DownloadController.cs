@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.Document;
 using VoteApp.Host.Service;
+using VoteApp.Host.Service.Document;
 
 namespace VoteApp.Host.Controllers.Client;
 

@@ -6,7 +6,7 @@ public interface IUserRepository
 {
     Task<UserModel> CreateUser(string login, string firstName, string lastName, string phone, string password);
 
-    Task<UserModel?> FindOneByLogin(string login);
+    Task<UserModel> FindOneByLogin(string login);
 
     Task<UserModel> GetOneByPhone(string phone);
 

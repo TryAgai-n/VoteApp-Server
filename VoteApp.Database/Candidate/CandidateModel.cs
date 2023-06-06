@@ -4,7 +4,7 @@ using VoteApp.Database.User;
 
 namespace VoteApp.Database.Candidate;
 
-public class CandidateModel
+public class CandidateModel : AbstractModel
 {
     public int Id { get; set; }
     
@@ -14,4 +14,13 @@ public class CandidateModel
     public int UserId { get; set; }
     public UserModel User { get; set; }
     public List<CandidateDocumentModel> CandidateDocuments { get; set; }
+
+    public static CandidateModel Create(string description, int userId)
+    {
+        return new CandidateModel
+        {
+            Description = description,
+            UserId = userId
+        };
+    }
 }

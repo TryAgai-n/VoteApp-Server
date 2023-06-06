@@ -1,13 +1,10 @@
-﻿
-using ICSharpCode.SharpZipLib.Zip;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using ImageMagick;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Database.Document;
-using CompressionMethod = ImageMagick.CompressionMethod;
 
-namespace VoteApp.Host.Service;
+namespace VoteApp.Host.Service.Document;
 
 public class DocumentService : IDocumentService
 {
@@ -94,7 +91,7 @@ public class DocumentService : IDocumentService
         };
     }
     
-    public async Task UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus)
+    public async Task<DocumentModel> UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus)
     {
         var projectDirectory = Directory.GetCurrentDirectory();
         var dataDirectory = Path.Combine(projectDirectory, "Data");
@@ -118,7 +115,7 @@ public class DocumentService : IDocumentService
         var relativePath = Path.GetRelativePath(projectDirectory, filePathFullQuality);
         var model = DocumentModel.CreateModel(userId, documentExtension, relativePath, documentStatus);
 
-        await _databaseContainer.Document.CreateModel(model);
+        return await _databaseContainer.Document.CreateModel(model);
     }
     
     public async Task<IActionResult> GetDocumentFile(DocumentModel document, DocumentQuality documentQuality)

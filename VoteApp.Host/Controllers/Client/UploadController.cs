@@ -2,6 +2,8 @@
 using VoteApp.Database;
 using VoteApp.Database.Document;
 using VoteApp.Host.Service;
+using VoteApp.Host.Service.Document;
+using VoteApp.Host.Service.User;
 
 
 namespace VoteApp.Host.Controllers.Client;
@@ -34,6 +36,5 @@ public class UploadController : AbstractClientController
         await _documentService.UploadDocument(user.Id, photo, DocumentStatus.Default);
 
         return Ok();
-
     }
 }

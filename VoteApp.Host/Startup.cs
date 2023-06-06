@@ -4,6 +4,9 @@ using Microsoft.OpenApi.Models;
 using VoteApp.Database;
 using VoteApp.Host.ExceptionFilter;
 using VoteApp.Host.Service;
+using VoteApp.Host.Service.Candidate;
+using VoteApp.Host.Service.Document;
+using VoteApp.Host.Service.User;
 
 namespace VoteApp.Host
 {
@@ -73,6 +76,7 @@ namespace VoteApp.Host
             services.AddScoped<IDatabaseContainer, DatabaseContainer>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICandidateService, CandidateService>();
             
             services.AddControllers(options =>
             {

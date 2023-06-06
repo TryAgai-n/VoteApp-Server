@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Database.User;
-using VoteApp.Host.Service;
+using VoteApp.Host.Service.User;
 using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Client;
@@ -24,14 +24,14 @@ public class UserController : AbstractClientController
    
    [AllowAnonymous]
    [HttpPost]
-   public async Task<IActionResult> Register(RequestRegisterUser requestRegisterUser)
+   public async Task<IActionResult> Register(RequestRegisterUser request)
    {
       if (!ModelState.IsValid)
       {
          return BadRequest();
       }
       
-      var user = await _userService.Create(requestRegisterUser);
+      var user = await _userService.Create(request);
       
       return Ok(user);
    }
@@ -39,25 +39,15 @@ public class UserController : AbstractClientController
 
    [AllowAnonymous]
    [HttpPost]
-   public async Task<IActionResult> Login([FromBody] RequestLoginUser requestLoginUser)
+   public async Task<IActionResult> Login([FromBody] RequestLoginUser request)
    {
       if (!ModelState.IsValid)
       {
          return BadRequest();
       }
-      
-      var user = await DatabaseContainer.User.FindOneByLogin(requestLoginUser.Login);
 
-      if (user is null)
-      {
-         return BadRequest();
-      }
-
-      if (user.Password != requestLoginUser.Password)
-      {
-         return Forbid();
-      }
-
+      var user = await _userService.ValidateUser(request);
+ 
       var claims = new[]
       {
          new Claim(UserClaims.Id.ToString(),   user.Id.ToString()),

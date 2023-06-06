@@ -1,8 +1,7 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.Document;
 
-namespace VoteApp.Host.Service;
+namespace VoteApp.Host.Service.Document;
 
 public interface IDocumentService
 {
@@ -10,7 +9,7 @@ public interface IDocumentService
 
     Task<IFormFile> ValidatePhoto(IFormFile photo);
 
-    Task UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus);
-
     Task<IActionResult> GetDocumentFile(DocumentModel document, DocumentQuality documentQuality);
+
+    Task<DocumentModel> UploadDocument(int userId, IFormFile photo, DocumentStatus documentStatus);
 }
