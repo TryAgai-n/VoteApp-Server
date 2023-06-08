@@ -4,6 +4,8 @@ using VoteApp.Database.Document;
 using VoteApp.Host.Service;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
+using VoteApp.Host.Utils.DocumentUtils;
+using VoteApp.Host.Utils.UserUtils;
 
 
 namespace VoteApp.Host.Controllers.Client;
@@ -12,28 +14,34 @@ public class UploadController : AbstractClientController
 {
     private readonly IDocumentService _documentService;
     private readonly IUserService _userService;
+    private readonly IDocumentUtils _documentUtils;
+    private readonly IUserUtils _userUtils;
 
 
     public UploadController(
-        IDatabaseContainer databaseContainer,
         IDocumentService documentService,
-        IUserService userService) : base(databaseContainer)
+        IUserService userService,
+        IDocumentUtils documentUtils,
+        IUserUtils userUtils
+    ) 
     {
         _documentService = documentService;
         _userService = userService;
+        _documentUtils = documentUtils;
+        _userUtils = userUtils;
     }
 
 
     [HttpPost]
     public async Task<IActionResult> Upload(IFormFile photo)
     {
-        var userId = await _userService.GetUserIdFromValidCookies(HttpContext);
+        var userId = await _userUtils.GetUserIdFromValidCookies(HttpContext);
         
-        var user = await DatabaseContainer.User.GetOneById(userId);
+        var user = await _userService.GetOneById(userId);
 
-        await _documentService.ValidatePhoto(photo);
+        await _documentUtils.ValidatePhoto(photo);
 
-        await _documentService.UploadDocument(user.Id, photo, DocumentStatus.Default);
+        await _documentUtils.UploadDocument(user.Id, photo, DocumentStatus.Default);
 
         return Ok();
     }

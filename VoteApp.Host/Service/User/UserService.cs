@@ -13,37 +13,7 @@ public class UserService : IUserService
         _databaseContainer = databaseContainer;
     }
 
-    public async Task<int> GetUserIdFromValidCookies(HttpContext httpContext)
-    {
-        var userIdClaim = httpContext.User.FindFirst(UserClaims.Id.ToString());
     
-        if (userIdClaim == null)
-        {
-            throw new UnauthorizedAccessException();
-        }
-
-        if (!int.TryParse(userIdClaim.Value, out var userId))
-        {
-            throw new ArgumentException("User ID must be int");
-        }
-
-        return userId;
-    }
-
-
-    public async Task<UserModel> ValidateUser(RequestLoginUser request)
-    {
-        var user = await _databaseContainer.User.FindOneByLogin(request.Login);
-
-        if (user.Password != request.Password)
-        {
-            throw new ArgumentException("Login or password is wrong");
-        }
-
-        return user;
-    }
-
-
     public async Task<UserModel> Create(RequestRegisterUser requestRegisterUser)
     {
        return await _databaseContainer.User.CreateUser(
@@ -52,5 +22,11 @@ public class UserService : IUserService
             requestRegisterUser.LastName,
             requestRegisterUser.Phone,
             requestRegisterUser.Password);
+    }
+
+
+    public async Task<UserModel> GetOneById(int userId)
+    {
+        return await _databaseContainer.User.GetOneById(userId);
     }
 }

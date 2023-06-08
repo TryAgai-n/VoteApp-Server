@@ -7,6 +7,8 @@ using VoteApp.Host.Service;
 using VoteApp.Host.Service.Candidate;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
+using VoteApp.Host.Utils.DocumentUtils;
+using VoteApp.Host.Utils.UserUtils;
 
 namespace VoteApp.Host
 {
@@ -77,6 +79,9 @@ namespace VoteApp.Host
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICandidateService, CandidateService>();
+
+            services.AddScoped<IUserUtils, UserUtils>();
+            services.AddScoped<IDocumentUtils, DocumentUtils>();
             
             services.AddControllers(options =>
             {

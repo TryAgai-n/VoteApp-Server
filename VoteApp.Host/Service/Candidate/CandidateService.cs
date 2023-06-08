@@ -1,6 +1,6 @@
 ﻿using VoteApp.Database;
 using VoteApp.Database.Candidate;
-using VoteApp.Models.API.Candidate;
+using VoteApp.Database.CandidateDocument;
 
 namespace VoteApp.Host.Service.Candidate;
 
@@ -25,10 +25,16 @@ public class CandidateService : ICandidateService
 
         return candidate;
     }
-
+    
 
     public async Task<CandidateModel> Create(string description, int userId)
     {
         return await _databaseContainer.Candidate.CreateCandidate(description, userId);
     }
+    
+    public async Task<CandidateDocumentModel> CreateCandidateDocument(int candidateId, int uploadPhotoId)
+    {
+        return  await _databaseContainer.CandidateDocument.Create(candidateId, uploadPhotoId);
+    }
+
 }

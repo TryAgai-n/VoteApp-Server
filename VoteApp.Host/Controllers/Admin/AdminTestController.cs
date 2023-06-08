@@ -5,8 +5,7 @@ using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Admin;
 
-[Authorize]
-public class AdminTestController : AbstractClientController
+public class AdminTestController : AbstractAdminController
 {
     
     public AdminTestController(IDatabaseContainer databaseContainer) : base(databaseContainer) { }

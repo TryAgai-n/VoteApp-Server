@@ -5,10 +5,10 @@ namespace VoteApp.Host.Service.User;
 
 public interface IUserService
 {
-    Task<int> GetUserIdFromValidCookies(HttpContext httpContext);
 
-    Task<UserModel> ValidateUser(RequestLoginUser request);
 
     Task<UserModel> Create(RequestRegisterUser requestRegisterUser);
+    
+    Task<UserModel> GetOneById(int userId);
     
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Database.User;
 using VoteApp.Host.Service.User;
+using VoteApp.Host.Utils.UserUtils;
 using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Client;
@@ -14,12 +15,15 @@ namespace VoteApp.Host.Controllers.Client;
 public class UserController : AbstractClientController
 {
    private readonly IUserService _userService;
+   private readonly IUserUtils _userUtils;
    
    public UserController(
-      IDatabaseContainer databaseContainer,
-      IUserService userService) : base(databaseContainer)
+      IUserService userService,
+      IUserUtils userUtils
+   )
    {
       _userService = userService;
+      _userUtils = userUtils;
    }
    
    [AllowAnonymous]
@@ -46,7 +50,7 @@ public class UserController : AbstractClientController
          return BadRequest();
       }
 
-      var user = await _userService.ValidateUser(request);
+      var user = await _userUtils.ValidateUser(request);
  
       var claims = new[]
       {

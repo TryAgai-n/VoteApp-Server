@@ -8,7 +8,6 @@ namespace VoteApp.Database.User;
 
 public class UserRepository : AbstractRepository<UserModel>, IUserRepository
 {
-    
     public UserRepository(PostgresContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory) { }
 
     public async Task<UserModel> CreateUser(string login, string firstName, string lastName, string phone, string password)

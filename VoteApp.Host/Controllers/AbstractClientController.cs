@@ -11,10 +11,5 @@ namespace VoteApp.Host.Controllers;
 [CustomException]
 public abstract class AbstractClientController: ControllerBase
 {
-    protected readonly IDatabaseContainer DatabaseContainer;
 
-    protected AbstractClientController(IDatabaseContainer databaseContainer)
-    {
-        DatabaseContainer = databaseContainer;
-    }
 }
