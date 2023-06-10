@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using VoteApp.Database;
 using VoteApp.Host.ExceptionFilter;
-using VoteApp.Host.Service;
 using VoteApp.Host.Service.Candidate;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;

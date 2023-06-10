@@ -11,4 +11,8 @@
       <PackageReference Include="telegram.bot" Version="18.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\VoteApp.Database\VoteApp.Database.csproj" />
+    </ItemGroup>
+
 </Project>

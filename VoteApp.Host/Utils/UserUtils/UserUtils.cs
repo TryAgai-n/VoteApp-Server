@@ -14,7 +14,7 @@ public class UserUtils : IUserUtils
     }
 
 
-    public Task<int> GetUserIdFromValidCookies(HttpContext httpContext)
+    public Task<int> GetUserIdFromCookies(HttpContext httpContext)
     {
         var userIdClaim = httpContext.User.FindFirst(UserClaims.Id.ToString());
     
@@ -32,7 +32,7 @@ public class UserUtils : IUserUtils
     }
 
 
-    public async Task<UserModel> ValidateUser(RequestLoginUser request)
+    public async Task<UserModel> ValidateUser(LoginUser request)
     {
         var user = await _databaseContainer.User.FindOneByLogin(request.Login);
 

@@ -2,11 +2,18 @@
 
 namespace VoteApp.Models.API.User;
 
-public class RequestLoginUser
+public class LoginUser
 {
     [Required]
     public string Login { get; set; }
     [Required]
     public string Password { get; set; }
+    
+    
+    public class Response
+    {
+        public Response()
+        { }
+    }
 
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VoteApp.Database.Candidate;
 using VoteApp.Database.Document;
 using VoteApp.Host.Service.Candidate;
 using VoteApp.Host.Service.Document;
@@ -34,22 +35,23 @@ public class CandidateController : AbstractClientController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] RequestCreateCandidate request)
+    public async Task<IActionResult> Create([FromBody] string description)
     {
-        var userId = await _userUtils.GetUserIdFromValidCookies(HttpContext);
+        var userId = await _userUtils.GetUserIdFromCookies(HttpContext);
         
-        var candidate = await _candidateService.Create(request.Description, userId);
+        var candidate = await _candidateService.Create(description, userId);
 
         return Ok(candidate);
     }
 
-
     [HttpPost]
     public async Task<IActionResult> UploadDocumentToCandidate(IFormFile photo, int candidateId)
     {
-        var userId = await _userUtils.GetUserIdFromValidCookies(HttpContext);
+        var userId = await _userUtils.GetUserIdFromCookies(HttpContext);
         
-        var candidate = await _candidateService.GetOneById(candidateId, userId);
+        var candidate = await _candidateService.GetOneById(candidateId);
+
+        await _candidateService.IsUsersCandidate(userId, candidate);
 
         await _documentUtils.ValidatePhoto(photo);
 
@@ -58,6 +60,34 @@ public class CandidateController : AbstractClientController
         await _candidateService.CreateCandidateDocument(candidate.Id, uploadPhoto.Id);
         
         return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GetCandidateById([FromBody] int candidateId)
+    {
+        var candidate = await _candidateService.GetOneById(candidateId);
+        
+        return Ok( 
+            new Candidate.Response(
+            candidate.Id,
+            candidate.Description,
+            candidate.PreviewDocumentId,
+            candidate.UserId,
+            candidate.CandidateDocuments.Select(x => x.DocumentId).ToList()));
+        
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetCandidateList(int skip, int take)
+    {
+        var candidates = await _candidateService.ListCandidateByStatus(CandidateStatus.Approve, skip, take);
+
+        return Ok(candidates.Select(
+            c => new CandidateList.Response(
+                c.Id,
+                c.Description,
+                c.PreviewDocumentId)));
     }
 
 }

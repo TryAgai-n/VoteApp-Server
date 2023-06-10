@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,13 @@ public class CandidateRepository : AbstractRepository<CandidateModel>, ICandidat
 {
     public CandidateRepository(PostgresContext context, ILoggerFactory loggerFactory) : base(context, loggerFactory) { }
 
-    
-    
     public async Task<CandidateModel> GetOneById(int id)
     {
-        var model = await DbModel.Where(x => x.Id == id).FirstOrDefaultAsync();
+        var model = await DbModel
+            .Include(x => x.CandidateDocuments)
+            .Include(x=>x.User.Documents)
+            .Where(x => x.Id == id)
+            .FirstOrDefaultAsync();
 
         if (model is null)
         {
@@ -38,5 +41,15 @@ public class CandidateRepository : AbstractRepository<CandidateModel>, ICandidat
             
         return result;
     }
-    
+
+
+    public async Task<List<CandidateModel>> ListCandidateByStatus(CandidateStatus status, int skip, int take)
+    {
+        return await DbModel.Where(x => x.Status == status)
+            .OrderBy(x => x.Id)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+    }
+
 }

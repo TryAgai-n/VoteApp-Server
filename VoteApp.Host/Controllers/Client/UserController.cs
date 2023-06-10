@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VoteApp.Database;
 using VoteApp.Database.User;
 using VoteApp.Host.Service.User;
 using VoteApp.Host.Utils.UserUtils;
@@ -28,7 +27,7 @@ public class UserController : AbstractClientController
    
    [AllowAnonymous]
    [HttpPost]
-   public async Task<IActionResult> Register(RequestRegisterUser request)
+   public async Task<IActionResult> Register(RegisterUser request)
    {
       if (!ModelState.IsValid)
       {
@@ -37,13 +36,17 @@ public class UserController : AbstractClientController
       
       var user = await _userService.Create(request);
       
-      return Ok(user);
+      return Ok(new RegisterUser.Response(
+            user.Login,
+            user.FirstName,
+            user.LastName,
+            user.Phone));
    }
 
 
    [AllowAnonymous]
    [HttpPost]
-   public async Task<IActionResult> Login([FromBody] RequestLoginUser request)
+   public async Task<IActionResult> Login([FromBody] LoginUser request)
    {
       if (!ModelState.IsValid)
       {
@@ -63,6 +66,7 @@ public class UserController : AbstractClientController
       var principal = new ClaimsPrincipal(identity);
         
       await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+      
       return Ok();
    }
 }

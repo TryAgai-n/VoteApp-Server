@@ -14,18 +14,12 @@ public class CandidateService : ICandidateService
     }
 
 
-    public async Task<CandidateModel> GetOneById(int id, int userId)
+    public async Task<CandidateModel> GetOneById(int id)
     {
         var candidate = await _databaseContainer.Candidate.GetOneById(id);
-
-        if (candidate.UserId != userId)
-        {
-            throw new UnauthorizedAccessException($"User {userId} access denied for document id {id}");
-        }
-
         return candidate;
     }
-    
+
 
     public async Task<CandidateModel> Create(string description, int userId)
     {
@@ -37,4 +31,21 @@ public class CandidateService : ICandidateService
         return  await _databaseContainer.CandidateDocument.Create(candidateId, uploadPhotoId);
     }
 
+
+    public async Task<List<CandidateModel>> ListCandidateByStatus(CandidateStatus status, int skip, int take)
+    {
+        return await _databaseContainer.Candidate.ListCandidateByStatus(status, skip, take);
+    }
+
+
+
+
+    public async Task<bool> IsUsersCandidate(int userId, CandidateModel candidate)
+    {
+        if (candidate.UserId != userId)
+        {
+            throw new UnauthorizedAccessException($"User {userId} access denied for document id {candidate.UserId}");
+        }
+        return true;
+    }
 }

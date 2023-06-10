@@ -1,8 +1,5 @@
-﻿using VoteApp.Database;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.Document;
-using VoteApp.Host.Service;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Utils.DocumentUtils;
 
@@ -22,19 +19,6 @@ public class DownloadController : AbstractClientController
         _documentUtils = documentUtils;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetDocumentsList(int skip, int take)
-    {
-        var documents = await _documentService.ListDocumentsByStatus(DocumentStatus.Default, skip, take);
-        
-        if (documents.Count is 0)
-        {
-            return NoContent();
-        }
-        
-        return Ok(documents);
-    }
-    
     
     [HttpGet]
     public async Task<IActionResult> DownloadFiles(int skip, int take, DocumentQuality quality)

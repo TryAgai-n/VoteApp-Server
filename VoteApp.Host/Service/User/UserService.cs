@@ -14,14 +14,14 @@ public class UserService : IUserService
     }
 
     
-    public async Task<UserModel> Create(RequestRegisterUser requestRegisterUser)
+    public async Task<UserModel> Create(RegisterUser registerUser)
     {
        return await _databaseContainer.User.CreateUser(
-            requestRegisterUser.Login,
-            requestRegisterUser.FirstName,
-            requestRegisterUser.LastName,
-            requestRegisterUser.Phone,
-            requestRegisterUser.Password);
+            registerUser.Login,
+            registerUser.FirstName,
+            registerUser.LastName,
+            registerUser.Phone,
+            registerUser.Password);
     }
 
 

@@ -29,9 +29,9 @@ public class DocumentRepository : AbstractRepository<DocumentModel>, IDocumentRe
     }
 
 
-    public Task<List<DocumentModel>> ListDocumentsByStatus(DocumentStatus documentStatus, int skip, int take)
+    public async Task<List<DocumentModel>> ListDocumentsByStatus(DocumentStatus documentStatus, int skip, int take)
     {
-        return DbModel.Where(x => x.DocumentStatus == documentStatus)
+        return await DbModel.Where(x => x.DocumentStatus == documentStatus)
             .OrderBy(x => x.Id)
             .Skip(skip)
             .Take(take)

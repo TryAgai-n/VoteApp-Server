@@ -1,4 +1,3 @@
-using VoteApp.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Host.ExceptionFilter;
@@ -10,6 +9,4 @@ namespace VoteApp.Host.Controllers;
 [Route("api/[controller]/[action]")]
 [CustomException]
 public abstract class AbstractClientController: ControllerBase
-{
-
-}
+{ }

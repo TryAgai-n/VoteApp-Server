@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VoteApp.Database;
 using VoteApp.Database.Document;
-using VoteApp.Host.Service;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
 using VoteApp.Host.Utils.DocumentUtils;
@@ -35,7 +33,7 @@ public class UploadController : AbstractClientController
     [HttpPost]
     public async Task<IActionResult> Upload(IFormFile photo)
     {
-        var userId = await _userUtils.GetUserIdFromValidCookies(HttpContext);
+        var userId = await _userUtils.GetUserIdFromCookies(HttpContext);
         
         var user = await _userService.GetOneById(userId);
 
