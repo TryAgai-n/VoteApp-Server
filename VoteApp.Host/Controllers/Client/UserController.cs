@@ -50,7 +50,7 @@ public class UserController : AbstractClientController
          return BadRequest();
       }
 
-      var user = await UtilsFactory.UserUtils.ValidateUser(request);
+      var user = await ServiceFactory.UserService.ValidateUser(request);
  
       var claims = new[]
       {

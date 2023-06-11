@@ -10,4 +10,6 @@ public interface IUserService
     
     Task<UserModel> GetOneById(int userId);
     
+    Task<UserModel> ValidateUser(LoginUser request);
+    
 }

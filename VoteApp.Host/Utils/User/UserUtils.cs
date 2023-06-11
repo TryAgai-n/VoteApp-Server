@@ -30,17 +30,4 @@ public class UserUtils : IUserUtils
 
         return Task.FromResult(userId);
     }
-
-
-    public async Task<UserModel> ValidateUser(LoginUser request)
-    {
-        var user = await _databaseContainer.User.FindOneByLogin(request.Login);
-
-        if (user.Password != request.Password)
-        {
-            throw new ArgumentException("Login or password is wrong");
-        }
-
-        return user;
-    }
 }

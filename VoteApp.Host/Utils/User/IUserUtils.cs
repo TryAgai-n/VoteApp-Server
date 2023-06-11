@@ -6,7 +6,5 @@ namespace VoteApp.Host.Utils.User;
 public interface IUserUtils
 {
     Task<int> GetUserIdFromCookies(HttpContext httpContext);
-
-    Task<UserModel> ValidateUser(LoginUser request);
-
+    
 }
