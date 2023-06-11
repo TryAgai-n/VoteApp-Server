@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.User;
-using VoteApp.Host.Service.User;
-using VoteApp.Host.Utils.UserUtils;
+using VoteApp.Host.Service;
+using VoteApp.Host.Utils;
 using VoteApp.Models.API.User;
 
 namespace VoteApp.Host.Controllers.Client;
@@ -13,17 +13,14 @@ namespace VoteApp.Host.Controllers.Client;
 
 public class UserController : AbstractClientController
 {
-   private readonly IUserService _userService;
-   private readonly IUserUtils _userUtils;
    
    public UserController(
-      IUserService userService,
-      IUserUtils userUtils
-   )
-   {
-      _userService = userService;
-      _userUtils = userUtils;
-   }
+      IServiceFactory serviceFactory,
+      IUtilsFactory utilsFactory) 
+      : base(
+         serviceFactory,
+         utilsFactory) { }
+
    
    [AllowAnonymous]
    [HttpPost]
@@ -34,7 +31,7 @@ public class UserController : AbstractClientController
          return BadRequest();
       }
       
-      var user = await _userService.Create(request);
+      var user = await ServiceFactory.UserService.Create(request);
       
       return Ok(new RegisterUser.Response(
             user.Login,
@@ -53,7 +50,7 @@ public class UserController : AbstractClientController
          return BadRequest();
       }
 
-      var user = await _userUtils.ValidateUser(request);
+      var user = await UtilsFactory.UserUtils.ValidateUser(request);
  
       var claims = new[]
       {
@@ -69,4 +66,6 @@ public class UserController : AbstractClientController
       
       return Ok();
    }
+
+
 }

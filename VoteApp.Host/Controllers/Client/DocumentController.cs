@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.Document;
-using VoteApp.Host.Service.Document;
+using VoteApp.Host.Service;
+using VoteApp.Host.Utils;
 
 namespace VoteApp.Host.Controllers.Client;
 
 public class DocumentController: AbstractClientController
 {
-    
-    private readonly IDocumentService _documentService;
+    public DocumentController(
+        IServiceFactory serviceFactory,
+        IUtilsFactory utilsFactory
+        ) : base(
+        serviceFactory,
+        utilsFactory) { }
 
-    public DocumentController(IDocumentService documentService)
-    {
-        _documentService = documentService;
-    }
 
     [HttpGet]
     public async Task<IActionResult> GetDocumentList(int skip, int take)
     {
-        var documents = await _documentService.ListDocumentsByStatus(DocumentStatus.Default, skip, take);
+        var documents = await ServiceFactory.DocumentService.ListDocumentsByStatus(DocumentStatus.Default, skip, take);
         
         if (documents.Count is 0)
         {
@@ -26,4 +27,6 @@ public class DocumentController: AbstractClientController
         
         return Ok(documents);
     }
+
+
 }

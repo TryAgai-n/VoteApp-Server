@@ -8,7 +8,7 @@ public class CandidateList
     {
         public Response(int id, string description, int previewDocumentId)
         {
-            Id = previewDocumentId;
+            Id = id;
             Description = description;
             PreviewDocumentId = previewDocumentId;
         }

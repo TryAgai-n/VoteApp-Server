@@ -1,45 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.Candidate;
 using VoteApp.Database.Document;
-using VoteApp.Host.Service.Candidate;
-using VoteApp.Host.Service.Document;
-using VoteApp.Host.Service.User;
-using VoteApp.Host.Utils.DocumentUtils;
-using VoteApp.Host.Utils.UserUtils;
+using VoteApp.Host.Service;
+using VoteApp.Host.Utils;
 using VoteApp.Models.API.Candidate;
 
 namespace VoteApp.Host.Controllers.Client;
 
 public class CandidateController : AbstractClientController
 {
-    private readonly IUserService _userService;
-    private readonly ICandidateService _candidateService;
-    private readonly IDocumentService _documentService;
-    private readonly IDocumentUtils _documentUtils;
-    private readonly IUserUtils _userUtils;
-
-
     public CandidateController(
-        IUserService userService,
-        ICandidateService candidateService,
-        IDocumentService documentService,
-        IDocumentUtils documentUtils,
-        IUserUtils userUtils
-    ) 
-    {
-        _userService = userService;
-        _candidateService = candidateService;
-        _documentService = documentService;
-        _documentUtils = documentUtils;
-        _userUtils = userUtils;
-    }
+        IServiceFactory serviceFactory, 
+        IUtilsFactory utilsFactory
+        ) : base(
+            serviceFactory,
+            utilsFactory) { }
+
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] string description)
     {
-        var userId = await _userUtils.GetUserIdFromCookies(HttpContext);
+        var userId = await UtilsFactory.UserUtils.GetUserIdFromCookies(HttpContext);
         
-        var candidate = await _candidateService.Create(description, userId);
+        var candidate = await ServiceFactory.CandidateService.Create(description, userId);
 
         return Ok(candidate);
     }
@@ -47,17 +30,17 @@ public class CandidateController : AbstractClientController
     [HttpPost]
     public async Task<IActionResult> UploadDocumentToCandidate(IFormFile photo, int candidateId)
     {
-        var userId = await _userUtils.GetUserIdFromCookies(HttpContext);
+        var userId = await UtilsFactory.UserUtils.GetUserIdFromCookies(HttpContext);
         
-        var candidate = await _candidateService.GetOneById(candidateId);
+        var candidate = await ServiceFactory.CandidateService.GetOneById(candidateId);
 
-        await _candidateService.IsUsersCandidate(userId, candidate);
+        await ServiceFactory.CandidateService.IsUsersCandidate(userId, candidate);
 
-        await _documentUtils.ValidatePhoto(photo);
+        await UtilsFactory.DocumentUtils.ValidatePhoto(photo);
 
-        var uploadPhoto = await _documentUtils.UploadDocument(userId, photo, DocumentStatus.Default);
+        var uploadPhoto = await UtilsFactory.DocumentUtils.UploadDocument(userId, photo, DocumentStatus.Default);
         
-        await _candidateService.CreateCandidateDocument(candidate.Id, uploadPhoto.Id);
+        await ServiceFactory.CandidateService.CreateCandidateDocument(candidate.Id, uploadPhoto.Id);
         
         return Ok();
     }
@@ -65,7 +48,7 @@ public class CandidateController : AbstractClientController
     [HttpPost]
     public async Task<IActionResult> GetCandidateById([FromBody] int candidateId)
     {
-        var candidate = await _candidateService.GetOneById(candidateId);
+        var candidate = await ServiceFactory.CandidateService.GetOneById(candidateId);
         
         return Ok( 
             new Candidate.Response(
@@ -81,7 +64,7 @@ public class CandidateController : AbstractClientController
     [HttpGet]
     public async Task<IActionResult> GetCandidateList(int skip, int take)
     {
-        var candidates = await _candidateService.ListCandidateByStatus(CandidateStatus.Approve, skip, take);
+        var candidates = await ServiceFactory.CandidateService.ListCandidateByStatus(CandidateStatus.Approve, skip, take);
 
         return Ok(candidates.Select(
             c => new CandidateList.Response(
@@ -89,5 +72,4 @@ public class CandidateController : AbstractClientController
                 c.Description,
                 c.PreviewDocumentId)));
     }
-
 }

@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using VoteApp.Database;
 using VoteApp.Host.ExceptionFilter;
+using VoteApp.Host.Service;
 using VoteApp.Host.Service.Candidate;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
+using VoteApp.Host.Utils;
 using VoteApp.Host.Utils.DocumentUtils;
 using VoteApp.Host.Utils.UserUtils;
 
@@ -75,10 +77,13 @@ namespace VoteApp.Host
             );
             
             services.AddScoped<IDatabaseContainer, DatabaseContainer>();
+            
+            services.AddScoped<IServiceFactory, ServiceFactory>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICandidateService, CandidateService>();
-
+            
+            services.AddScoped<IUtilsFactory, UtilsFactory>();
             services.AddScoped<IUserUtils, UserUtils>();
             services.AddScoped<IDocumentUtils, DocumentUtils>();
             
