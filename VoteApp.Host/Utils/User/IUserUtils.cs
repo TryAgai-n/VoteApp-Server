@@ -1,8 +1,7 @@
-﻿using VoteApp.Database.Candidate;
-using VoteApp.Database.User;
+﻿using VoteApp.Database.User;
 using VoteApp.Models.API.User;
 
-namespace VoteApp.Host.Utils.UserUtils;
+namespace VoteApp.Host.Utils.User;
 
 public interface IUserUtils
 {

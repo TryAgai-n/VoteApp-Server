@@ -1,5 +1,5 @@
 ﻿using VoteApp.Host.Utils.DocumentUtils;
-using VoteApp.Host.Utils.UserUtils;
+using VoteApp.Host.Utils.User;
 
 namespace VoteApp.Host.Utils;
 

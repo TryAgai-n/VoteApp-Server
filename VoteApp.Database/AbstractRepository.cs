@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace VoteApp.Database
 {
-    public abstract class AbstractRepository<T>
-        where T : AbstractModel
+    public abstract class AbstractRepository<T> where T : AbstractModel
     {
         protected readonly DbSet<T> DbModel;
 
@@ -90,8 +89,6 @@ namespace VoteApp.Database
             {
                 throw new Exception("Db error. Not deleted");
             }
-
-            
         }
     }
 }

@@ -9,7 +9,7 @@ using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
 using VoteApp.Host.Utils;
 using VoteApp.Host.Utils.DocumentUtils;
-using VoteApp.Host.Utils.UserUtils;
+using VoteApp.Host.Utils.User;
 
 namespace VoteApp.Host
 {
