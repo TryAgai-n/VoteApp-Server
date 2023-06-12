@@ -28,9 +28,9 @@ public class CandidateRepository : AbstractRepository<CandidateModel>, ICandidat
     }
 
 
-    public async Task<CandidateModel> CreateCandidate(string description, int userId)
+    public async Task<CandidateModel> CreateEmptyCandidate(int userId)
     {
-        var model = CandidateModel.Create(description, userId);
+        var model = CandidateModel.CreateEmpty(userId);
         
         var result = await CreateModelAsync(model);
         

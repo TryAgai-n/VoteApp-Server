@@ -17,54 +17,31 @@ namespace VoteApp.Host
     {
      
         public IConfiguration Configuration { get; }
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
         
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", builder =>
                 {
                     builder
-                        .WithOrigins("http://localhost:4200","http://localhost:5000", "http://192.168.10.250:5010", "https://vote.my:5010")
+                        .WithOrigins(
+                            "http://localhost:4200",
+                            "http://localhost:5000", 
+                            "http://192.168.10.250:5010",
+                            "https://vote.my:5010")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
                 });
             });
             
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VoteApp Api", Version = "v1" });
-
-                c.AddSecurityDefinition("Cookies", new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.ApiKey,
-                    In = ParameterLocation.Cookie,
-                    Name = "UserCookies"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Cookies"
-                            }
-                        },
-                        new List<string>()
-                    }
-                });
-            });
+            SwaggerStartup.ConfigureServices(services);
             
             RegisterDatabaseServices(services);
             RegisterAppServices(services);
@@ -81,13 +58,25 @@ namespace VoteApp.Host
                     options.Cookie.Name = "UserCookies";
                     options.Cookie.Path = "/";
                     options.Cookie.Domain = "localhost";
-                    options.Cookie.HttpOnly = false;
+                    options.Cookie.HttpOnly = true;
                     options.ExpireTimeSpan = TimeSpan.FromHours(24);
                     
+                    options.Events = new CookieAuthenticationEvents
+                    {
+                        OnRedirectToLogin = context =>
+                        {
+                            context.Response.StatusCode = 401;
+                            return Task.CompletedTask;
+                        },
+                        OnRedirectToAccessDenied = context =>
+                        {
+                            context.Response.StatusCode = 401;
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
         }
-        
-        
+
         private void RegisterDatabaseServices(IServiceCollection services)
         {
             services.AddScoped<IDatabaseContainer, DatabaseContainer>();
@@ -120,12 +109,7 @@ namespace VoteApp.Host
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VoteApp Api v1"));
-            }
+            SwaggerStartup.Configure(app, env);
             
             app.UseStaticFiles();
             app.UseCookiePolicy();

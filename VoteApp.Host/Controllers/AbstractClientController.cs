@@ -8,6 +8,8 @@ namespace VoteApp.Host.Controllers;
 
 [ApiController]
 [Authorize]
+[ApiExplorerSettings(GroupName = "v1")]
+[Produces("application/json")]
 [Route("api/[controller]/[action]")]
 [CustomException]
 public abstract class AbstractClientController : ControllerBase

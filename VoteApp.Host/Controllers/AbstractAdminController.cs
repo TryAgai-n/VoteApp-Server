@@ -7,7 +7,9 @@ namespace VoteApp.Host.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/[action]")]
+[ApiExplorerSettings(GroupName = "admin")]
+[Produces("application/json")]
+[Route("api/admin/[controller]/[action]")]
 [CustomException]
 public abstract class AbstractAdminController: ControllerBase
 {

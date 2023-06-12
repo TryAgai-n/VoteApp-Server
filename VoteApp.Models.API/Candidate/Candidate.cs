@@ -4,9 +4,9 @@ public class Candidate
 {
     public class Response
     {
-        public Response(int id, string description, int previewDocumentId, int userId, List<int> documentIds)
+        public Response(int id, string description, int? previewDocumentId, int userId, List<int> documentIds)
         {
-            Id = previewDocumentId;
+            Id = id;
             Description = description;
             PreviewDocumentId = previewDocumentId;
             UserId = userId;

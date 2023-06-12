@@ -14,11 +14,11 @@ public class CandidateController : AbstractClientController
 
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] string description)
+    public async Task<IActionResult> CreateEmpty()
     {
         var userId = await UtilsFactory.UserUtils.GetUserIdFromCookies(HttpContext);
         
-        var candidate = await ServiceFactory.CandidateService.Create(description, userId);
+        var candidate = await ServiceFactory.CandidateService.CreateEmpty(userId);
 
         return Ok(candidate);
     }
@@ -61,8 +61,9 @@ public class CandidateController : AbstractClientController
     {
         var candidates = await ServiceFactory.CandidateService.ListCandidateByStatus(CandidateStatus.Approve, skip, take);
 
-        return Ok(candidates.Select(
-            c => new CandidateList.Response(
+        return Ok(
+            candidates.Select(
+                c => new CandidateList.Response(
                 c.Id,
                 c.Description,
                 c.PreviewDocumentId)));

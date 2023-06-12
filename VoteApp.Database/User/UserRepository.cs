@@ -27,7 +27,11 @@ public class UserRepository : AbstractRepository<UserModel>, IUserRepository
 
     public async Task<UserModel> GetOneById(int id)
     {
-        var model = await DbModel.Where(x => x.Id == id).FirstOrDefaultAsync();
+        var model = await DbModel
+            .Include(x=>x.Documents)
+            .Include(x=>x.Candidates)
+            .Where(x => x.Id == id)
+            .FirstOrDefaultAsync();
 
         if (model is null)
         {
@@ -39,7 +43,11 @@ public class UserRepository : AbstractRepository<UserModel>, IUserRepository
     
     public async Task<UserModel> FindOneByLogin(string login)
     {
-        var model = await DbModel.Where(x => x.Login == login).FirstOrDefaultAsync();
+        var model = await DbModel
+            .Include(x=>x.Documents)
+            .Include(x=>x.Candidates)
+            .Where(x => x.Login == login)
+            .FirstOrDefaultAsync();
 
         if (model is null)
         {

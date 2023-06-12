@@ -12,8 +12,7 @@ public class CandidateService : ICandidateService
     {
         _databaseContainer = databaseContainer;
     }
-
-
+    
     public async Task<CandidateModel> GetOneById(int id)
     {
         var candidate = await _databaseContainer.Candidate.GetOneById(id);
@@ -21,9 +20,9 @@ public class CandidateService : ICandidateService
     }
 
 
-    public async Task<CandidateModel> Create(string description, int userId)
+    public async Task<CandidateModel> CreateEmpty(int userId)
     {
-        return await _databaseContainer.Candidate.CreateCandidate(description, userId);
+        return await _databaseContainer.Candidate.CreateEmptyCandidate(userId);
     }
     
     public async Task<CandidateDocumentModel> CreateCandidateDocument(int candidateId, int uploadPhotoId)
