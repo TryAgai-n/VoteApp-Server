@@ -13,13 +13,8 @@ namespace VoteApp.Host.Controllers.Client;
 
 public class UserController : AbstractClientController
 {
-   
-   public UserController(
-      IServiceFactory serviceFactory,
-      IUtilsFactory utilsFactory) 
-      : base(
-         serviceFactory,
-         utilsFactory) { }
+   public UserController(IServiceFactory serviceFactory, IUtilsFactory utilsFactory) 
+      : base(serviceFactory, utilsFactory) { }
 
    
    [AllowAnonymous]
@@ -66,6 +61,4 @@ public class UserController : AbstractClientController
       
       return Ok();
    }
-
-
 }

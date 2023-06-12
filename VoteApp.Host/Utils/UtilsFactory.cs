@@ -1,4 +1,4 @@
-﻿using VoteApp.Host.Utils.DocumentUtils;
+﻿using VoteApp.Host.Utils.Document;
 using VoteApp.Host.Utils.User;
 
 namespace VoteApp.Host.Utils;

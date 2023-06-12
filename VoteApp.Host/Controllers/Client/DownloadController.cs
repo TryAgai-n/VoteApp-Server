@@ -3,20 +3,14 @@ using VoteApp.Database.Document;
 using VoteApp.Host.Service;
 using VoteApp.Host.Utils;
 
-
 namespace VoteApp.Host.Controllers.Client;
 
 public class DownloadController : AbstractClientController
 {
+    public DownloadController(IServiceFactory serviceFactory, IUtilsFactory utilsFactory)
+        : base(serviceFactory, utilsFactory) { }
 
-    public DownloadController(
-        IServiceFactory serviceFactory,
-        IUtilsFactory utilsFactory
-        ) : base(
-        serviceFactory,
-        utilsFactory) { }
 
-    
     [HttpGet]
     public async Task<IActionResult> DownloadFiles(int skip, int take, DocumentQuality quality)
     {
@@ -26,9 +20,10 @@ public class DownloadController : AbstractClientController
         {
             return NoContent();
         }
-        
+
         return await UtilsFactory.DocumentUtils.CreateZipArchive(documents, quality);
     }
+
 
     [HttpGet]
     public async Task<IActionResult> DownloadFile(int documentId, DocumentQuality quality)
@@ -36,6 +31,4 @@ public class DownloadController : AbstractClientController
         var document = await ServiceFactory.DocumentService.GetDocumentById(documentId);
         return await UtilsFactory.DocumentUtils.GetDocumentFile(document, quality);
     }
-
-
 }

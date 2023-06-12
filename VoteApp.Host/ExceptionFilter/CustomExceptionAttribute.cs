@@ -10,7 +10,7 @@ public class CustomExceptionAttribute : ExceptionFilterAttribute
         context.Result = context.Exception switch
         {
             UnauthorizedAccessException => new UnauthorizedResult(),
-            InvalidOperationException   => new BadRequestObjectResult("Error\n" + context.Exception.Message),
+            InvalidOperationException   => new BadRequestObjectResult("Db Error\n" + context.Exception.Message),
             ArgumentException           => new BadRequestObjectResult("Error\n" + context.Exception.Message),
             _ => context.Result
         };

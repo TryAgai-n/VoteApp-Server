@@ -1,6 +1,5 @@
 ﻿using VoteApp.Database.Candidate;
 using VoteApp.Database.CandidateDocument;
-using VoteApp.Models.API.Candidate;
 
 namespace VoteApp.Host.Service.Candidate;
 

@@ -9,12 +9,8 @@ namespace VoteApp.Host.Controllers.Client;
 
 public class CandidateController : AbstractClientController
 {
-    public CandidateController(
-        IServiceFactory serviceFactory, 
-        IUtilsFactory utilsFactory
-        ) : base(
-            serviceFactory,
-            utilsFactory) { }
+    public CandidateController(IServiceFactory serviceFactory, IUtilsFactory utilsFactory) 
+        : base(serviceFactory, utilsFactory) { }
 
 
     [HttpPost]
@@ -59,8 +55,7 @@ public class CandidateController : AbstractClientController
             candidate.CandidateDocuments.Select(x => x.DocumentId).ToList()));
         
     }
-
-
+    
     [HttpGet]
     public async Task<IActionResult> GetCandidateList(int skip, int take)
     {

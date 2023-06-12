@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database;
 using VoteApp.Database.Document;
 
-namespace VoteApp.Host.Utils.DocumentUtils;
+namespace VoteApp.Host.Utils.Document;
 
 public class DocumentUtils : IDocumentUtils
 {

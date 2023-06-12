@@ -14,8 +14,7 @@ public class UserService : IUserService
     {
         _databaseContainer = databaseContainer;
     }
-
-
+    
     public async Task<UserModel> Create(RegisterUser registerUser)
     {
         var toLowerLogin = registerUser.Login.ToLower();
@@ -57,8 +56,7 @@ public class UserService : IUserService
 
         return hashedPassword;
     }
-
-
+    
     public async Task<UserModel> GetOneById(int userId)
     {
         return await _databaseContainer.User.GetOneById(userId);

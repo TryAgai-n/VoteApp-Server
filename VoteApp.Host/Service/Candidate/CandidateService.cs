@@ -36,10 +36,7 @@ public class CandidateService : ICandidateService
     {
         return await _databaseContainer.Candidate.ListCandidateByStatus(status, skip, take);
     }
-
-
-
-
+    
     public async Task<bool> IsUsersCandidate(int userId, CandidateModel candidate)
     {
         if (candidate.UserId != userId)

@@ -12,7 +12,6 @@ public class DocumentService : IDocumentService
         _databaseContainer = databaseContainer;
     }
     
-    
     public async Task<List<DocumentModel>> ListDocumentsByStatus(DocumentStatus status, int skip, int take)
     {
         return await _databaseContainer.Document.ListDocumentsByStatus(status, skip, take);

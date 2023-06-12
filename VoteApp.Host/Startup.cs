@@ -8,7 +8,7 @@ using VoteApp.Host.Service.Candidate;
 using VoteApp.Host.Service.Document;
 using VoteApp.Host.Service.User;
 using VoteApp.Host.Utils;
-using VoteApp.Host.Utils.DocumentUtils;
+using VoteApp.Host.Utils.Document;
 using VoteApp.Host.Utils.User;
 
 namespace VoteApp.Host
@@ -32,7 +32,7 @@ namespace VoteApp.Host
                 options.AddPolicy("AllowOrigin", builder =>
                 {
                     builder
-                        .WithOrigins("http://localhost:4200","http://localhost:5000", "http://192.168.10.250:5010", "http://vote.my:5010")
+                        .WithOrigins("http://localhost:4200","http://localhost:5000", "http://192.168.10.250:5010", "https://vote.my:5010")
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();
@@ -65,27 +65,10 @@ namespace VoteApp.Host
                     }
                 });
             });
-
             
-            var typeOfContent = typeof(Startup);
-
-            services.AddDbContext<PostgresContext>(
-                options => options.UseNpgsql(
-                    Configuration.GetConnectionString("PostgresConnection"),
-                    b => b.MigrationsAssembly(typeOfContent.Assembly.GetName().Name)
-                )
-            );
-            
-            services.AddScoped<IDatabaseContainer, DatabaseContainer>();
-            
-            services.AddScoped<IServiceFactory, ServiceFactory>();
-            services.AddScoped<IDocumentService, DocumentService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICandidateService, CandidateService>();
-            
-            services.AddScoped<IUtilsFactory, UtilsFactory>();
-            services.AddScoped<IUserUtils, UserUtils>();
-            services.AddScoped<IDocumentUtils, DocumentUtils>();
+            RegisterDatabaseServices(services);
+            RegisterAppServices(services);
+            RegisterUtils(services);
             
             services.AddControllers(options =>
             {
@@ -103,6 +86,37 @@ namespace VoteApp.Host
                     
                 });
         }
+        
+        
+        private void RegisterDatabaseServices(IServiceCollection services)
+        {
+            services.AddScoped<IDatabaseContainer, DatabaseContainer>();
+            
+            var typeOfContent = typeof(Startup);
+
+            services.AddDbContext<PostgresContext>(
+                options => options.UseNpgsql(
+                    Configuration.GetConnectionString("PostgresConnection"),
+                    b => b.MigrationsAssembly(typeOfContent.Assembly.GetName().Name)
+                )
+            );
+        }
+
+        private void RegisterAppServices(IServiceCollection services)
+        {
+            services.AddScoped<IServiceFactory, ServiceFactory>();
+            services.AddScoped<IDocumentService, DocumentService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICandidateService, CandidateService>();
+        }
+
+        private void RegisterUtils(IServiceCollection services)
+        {
+            services.AddScoped<IUtilsFactory, UtilsFactory>();
+            services.AddScoped<IUserUtils, UserUtils>();
+            services.AddScoped<IDocumentUtils, DocumentUtils>();
+        }
+        
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

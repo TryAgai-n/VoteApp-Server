@@ -1,19 +1,9 @@
-﻿using VoteApp.Database;
-using VoteApp.Database.User;
-using VoteApp.Models.API.User;
+﻿using VoteApp.Database.User;
 
 namespace VoteApp.Host.Utils.User;
 
 public class UserUtils : IUserUtils
 {
-    private readonly IDatabaseContainer _databaseContainer;
-
-    public UserUtils(IDatabaseContainer databaseContainer)
-    {
-        _databaseContainer = databaseContainer;
-    }
-
-
     public Task<int> GetUserIdFromCookies(HttpContext httpContext)
     {
         var userIdClaim = httpContext.User.FindFirst(UserClaims.Id.ToString());
