@@ -17,9 +17,8 @@ public class UserModel : AbstractModel
     public UserRole UserRole { get; set; }
     public List<DocumentModel> Documents { get; set; }
     public List<CandidateModel> Candidates { get; set; }
-
-
-
+    
+    
     public static UserModel Create(string login, string firstName, string lastName, string phone, string password)
     {
         return new UserModel
