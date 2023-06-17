@@ -1,5 +1,5 @@
 ﻿using VoteApp.Database.User;
-using VoteApp.Models.API.User;
+using VoteApp.API.Models.User;
 
 namespace VoteApp.Host.Service.User;
 

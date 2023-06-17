@@ -3,7 +3,7 @@ using VoteApp.Database.Candidate;
 using VoteApp.Database.Document;
 using VoteApp.Host.Service;
 using VoteApp.Host.Utils;
-using VoteApp.Models.API.Candidate;
+using VoteApp.API.Models.Candidate;
 
 namespace VoteApp.Host.Controllers.Client;
 

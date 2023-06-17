@@ -2,8 +2,8 @@
 using VoteApp.Database;
 using VoteApp.Database.Candidate;
 using VoteApp.Host.Service;
-using VoteApp.Models.API.Candidate;
-using VoteApp.Models.API.User;
+using VoteApp.API.Models.Candidate;
+using VoteApp.API.Models.User;
 
 namespace VoteApp.Host.Controllers.Admin;
 

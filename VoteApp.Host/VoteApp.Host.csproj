@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VoteApp.Models.API\VoteApp.Models.API.csproj" />
+      <ProjectReference Include="..\VoteApp.API.Models\VoteApp.API.Models.csproj" />
       <ProjectReference Include="..\VoteApp.Database\VoteApp.Database.csproj" />
     </ItemGroup>
 

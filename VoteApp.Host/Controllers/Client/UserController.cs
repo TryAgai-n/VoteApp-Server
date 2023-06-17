@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using VoteApp.Database.User;
 using VoteApp.Host.Service;
 using VoteApp.Host.Utils;
-using VoteApp.Models.API.User;
+using VoteApp.API.Models.User;
 
 namespace VoteApp.Host.Controllers.Client;
 

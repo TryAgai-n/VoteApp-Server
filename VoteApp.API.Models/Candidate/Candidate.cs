@@ -1,4 +1,4 @@
-﻿namespace VoteApp.Models.API.Candidate;
+﻿namespace VoteApp.API.Models.Candidate;
 
 public class Candidate
 {

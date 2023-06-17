@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace VoteApp.Models.API.User;
+namespace VoteApp.API.Models.User;
 
 public class RegisterUser
 {

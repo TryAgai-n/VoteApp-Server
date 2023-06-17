@@ -3,7 +3,7 @@ using VoteApp.Database.Candidate;
 using VoteApp.Database.Document;
 using VoteApp.Database.User;
 
-namespace VoteApp.Models.API.User;
+namespace VoteApp.API.Models.User;
 
 public class FullUserInfo
 {

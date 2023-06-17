@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoteApp.Database", "VoteApp.Database\VoteApp.Database.csproj", "{9786E3A2-3B3B-451A-B57A-883A2A918F58}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoteApp.Models.API", "VoteApp.Models.API\VoteApp.Models.API.csproj", "{AA5413FD-E8B7-426B-BCCB-DDE3C936E6C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoteApp.API.Models", "VoteApp.API.Models\VoteApp.API.Models.csproj", "{AA5413FD-E8B7-426B-BCCB-DDE3C936E6C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteApp.Migrations", "VoteApp.Migrations\VoteApp.Migrations.csproj", "{FE5DA0D8-DD67-4C68-82E8-89C24A1F6B82}"
 EndProject
