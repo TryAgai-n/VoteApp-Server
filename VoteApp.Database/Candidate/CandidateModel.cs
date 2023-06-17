@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using VoteApp.Database.CandidateDocument;
 using VoteApp.Database.User;
 
@@ -20,6 +21,7 @@ public class CandidateModel : AbstractModel
         {
             UserId = userId,
             PreviewDocumentId = null,
+            Description = String.Empty,
             Status = CandidateStatus.Empty,
         };
     }

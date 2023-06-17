@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using VoteApp.Database;
 using VoteApp.Host.ExceptionFilter;
 using VoteApp.Host.Service;

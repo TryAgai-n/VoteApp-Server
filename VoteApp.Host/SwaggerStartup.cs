@@ -6,8 +6,7 @@ static internal class SwaggerStartup
 {
 
     private const string Prefix = "VoteApp.";
-
-
+    
     public static void ConfigureServices(IServiceCollection services)
     {
         services.AddSwaggerGen(
