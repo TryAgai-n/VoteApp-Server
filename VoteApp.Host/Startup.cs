@@ -16,10 +16,12 @@ namespace VoteApp.Host
     {
      
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
         
         public void ConfigureServices(IServiceCollection services)
@@ -81,10 +83,12 @@ namespace VoteApp.Host
             services.AddScoped<IDatabaseContainer, DatabaseContainer>();
             
             var typeOfContent = typeof(Startup);
-
+            
+            var connectionString = Environment.IsEnvironment("Testing") ? "PostgresConnectionTest" : "PostgresConnection";
+            
             services.AddDbContext<PostgresContext>(
                 options => options.UseNpgsql(
-                    Configuration.GetConnectionString("PostgresConnection"),
+                    Configuration.GetConnectionString(connectionString),
                     b => b.MigrationsAssembly(typeOfContent.Assembly.GetName().Name)
                 )
             );

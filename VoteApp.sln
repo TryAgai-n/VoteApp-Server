@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteApp.Host", "VoteApp.Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteApp.Database.Test", "VoteApp.Database.Test\VoteApp.Database.Test.csproj", "{1A5B68C0-34C0-43CE-970E-2323E53BB1EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteApp.API.Test", "VoteApp.API.Test\VoteApp.API.Test.csproj", "{BEB7D9A6-0BEA-4476-BCAC-5A3DDAFDCCBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1A5B68C0-34C0-43CE-970E-2323E53BB1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A5B68C0-34C0-43CE-970E-2323E53BB1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A5B68C0-34C0-43CE-970E-2323E53BB1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB7D9A6-0BEA-4476-BCAC-5A3DDAFDCCBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB7D9A6-0BEA-4476-BCAC-5A3DDAFDCCBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB7D9A6-0BEA-4476-BCAC-5A3DDAFDCCBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB7D9A6-0BEA-4476-BCAC-5A3DDAFDCCBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

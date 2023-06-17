@@ -72,7 +72,6 @@ namespace VoteApp.Database.Test
             Assert.NotNull(result);
             Assert.Equal(user.Id, result.Id);
             Assert.Equal(user.Login, result.Login);
-            // Add more assertions for other properties
         }
 
         [Fact]
@@ -101,14 +100,13 @@ namespace VoteApp.Database.Test
             Assert.NotNull(result);
             Assert.Equal(user.Id, result.Id);
             Assert.Equal(user.Phone, result.Phone);
-            // Add more assertions for other properties
         }
 
         [Fact]
         public async Task GetOneByPhone_NonExistingPhone_ThrowsArgumentException()
         {
             // Arrange
-            var nonExistingPhone = "9999999999";
+            const string nonExistingPhone = "9999999999";
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(async () =>
