@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
-using VoteApp.Database;
 using VoteApp.Migrations;
 
 namespace VoteApp.Database.Test;

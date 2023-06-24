@@ -1,5 +1,6 @@
 using Bogus;
 using VoteApp.Database.User;
+using Xunit;
 
 namespace VoteApp.Database.Test
 {
@@ -50,7 +51,7 @@ namespace VoteApp.Database.Test
         public async Task GetOneById_NonExistingId_ThrowsArgumentException()
         {
             // Arrange
-            var nonExistingId = 9999;
+            const int nonExistingId = 9999;
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(async () =>

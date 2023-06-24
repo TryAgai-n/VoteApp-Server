@@ -19,6 +19,7 @@ public class UserController : AbstractClientController
    
    [AllowAnonymous]
    [HttpPost]
+   [ProducesResponseType(typeof(RegisterUser.Response), 200)]
    public async Task<IActionResult> Register(RegisterUser request)
    {
       if (!ModelState.IsValid)
@@ -38,6 +39,7 @@ public class UserController : AbstractClientController
 
    [AllowAnonymous]
    [HttpPost]
+   [ProducesResponseType(typeof(LoginUser.Response), 200)]
    public async Task<IActionResult> Login([FromBody] LoginUser request)
    {
       if (!ModelState.IsValid)
@@ -59,6 +61,6 @@ public class UserController : AbstractClientController
         
       await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
       
-      return Ok();
+      return Ok(new LoginUser.Response());
    }
 }

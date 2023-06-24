@@ -1,15 +1,15 @@
 ﻿using System.Net;
 using VoteApp.API.Models.User;
 using VoteApp.API.Test.Services;
+using VoteApp.API.Test.Services.HttpService;
 using Xunit;
 
 namespace VoteApp.API.Test
 {
     public class UserTest : IClassFixture<ClientFixture>
     {
-        private readonly CookieService _cookieService;
-        private readonly HttpService _httpService;
-
+        private readonly ICookieService _cookieService;
+        private readonly IHttpService _httpService;
 
         public UserTest(ClientFixture fixture)
         {
@@ -22,16 +22,21 @@ namespace VoteApp.API.Test
         {
             var requestBody = new RegisterUser
             {
-                Login = "John_test",
-                FirstName = "John",
-                LastName = "Doe",
+                Login = "john_test",
+                FirstName = "john",
+                LastName = "doe",
                 Phone = "+123",
                 Password = "123456"
             };
 
-            var response = await _httpService.PostAsync("/api/User/Register", requestBody);
-            response.EnsureSuccessStatusCode();
+            var response = await _httpService.PostAsync<RegisterUser.Response, RegisterUser>("/api/User/Register", requestBody);
+            
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            
+            Assert.Equal(response.Response.Login, requestBody.Login);
+            Assert.Equal(response.Response.FirstName, requestBody.FirstName);
+            Assert.Equal(response.Response.LastName, requestBody.LastName);
+            Assert.Equal(response.Response.Phone, requestBody.Phone);
         }
 
         [Fact]
@@ -42,9 +47,9 @@ namespace VoteApp.API.Test
                 Login = "John_test", 
                 Password = "123456"
             };
-
-            var response = await _httpService.PostAsync("/api/User/Login", requestBody);
-            response.EnsureSuccessStatusCode();
+            
+            var response = await _httpService.PostAsync<LoginUser.Response, LoginUser>("/api/User/Login", requestBody);
+            
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -57,12 +62,11 @@ namespace VoteApp.API.Test
                 Login = "Admin", 
                 Password = "123"
             };
-
-            var cookieHeader = await _cookieService.GetCookieHeader(user);
-                
-            var response = await _httpService.PostAsyncWithCredentials("/api/Candidate/CreateEmpty", cookieHeader, " ");
             
-            response.EnsureSuccessStatusCode();
+            var cookieHeader = await _cookieService.GetCookieByLogin(user);
+                
+            var response = await _httpService.PostAsyncWithCredentials<LoginUser.Response, LoginUser>("/api/Candidate/CreateEmpty", cookieHeader, user);
+
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
     }

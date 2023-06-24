@@ -1,13 +1,14 @@
 ﻿using System.Net;
 using VoteApp.API.Test.Services;
+using VoteApp.API.Test.Services.HttpService;
 
 namespace VoteApp.API.Test
 {
     public class ClientFixture
     {
         public HttpClient HttpClient { get; }
-        public HttpService HttpService { get; }
-        public CookieService CookieService { get; }
+        public IHttpService HttpService { get; }
+        public ICookieService CookieService { get; }
         public CookieContainer CookieContainer { get; }
         
         public ClientFixture()
@@ -25,7 +26,7 @@ namespace VoteApp.API.Test
             };
 
             CookieService = new CookieService(HttpClient);
-            HttpService = new HttpService(HttpClient, CookieService);
+            HttpService = new HttpService(HttpClient);
         }
     }
 }

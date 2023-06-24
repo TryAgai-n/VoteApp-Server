@@ -1,4 +1,4 @@
-﻿using VoteApp.Database;
+﻿using Xunit;
 
 namespace VoteApp.Database.Test;
 
